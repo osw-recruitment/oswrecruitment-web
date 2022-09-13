@@ -1,0 +1,60 @@
+.footer {
+    &-details {
+        height: 30vh;
+        background-image: url(https://images.unsplash.com/photo-1507679799987-c73779587ccf?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1171&q=80);
+        background-position: center;
+        background-repeat  : no-repeat;
+        background-size    : cover;
+
+        &-location {
+            color: white;
+            border-right: 0.5px solid white;
+            width: 50%;
+
+            p {
+                font-size: 18px;
+                margin-bottom: 0 !important;
+                text-align: center;
+            }
+
+            &-icon {
+                font-weight: 600;
+                font-size: 48px;
+            }
+        }
+
+        &-email {
+            border-right: 0.5px solid white;
+        }
+        
+        &-email, &-phone {
+            width: 50%;
+            color: white;
+
+            p {
+                font-size: 18px;
+                text-align: center;
+
+                a {
+                    color: white !important;
+                    text-decoration: none;
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+
+    &-backdrop {
+        background-color: black;
+        width: 100vw;
+        opacity: 0.6;
+    }
+
+    &-socials {
+        min-height: 75px !important;
+        background-color: #606060FF;
+        color: white;
+        font-size: 20px;
+        font-weight: 600;
+    }
+}

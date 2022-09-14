@@ -1,10 +1,9 @@
 .app {
-    // Common Styles
     &-title {
         text-transform: uppercase;
-        font-size: 32px;
-        text-align: center;
-        font-weight: 600;
+        font-size     : 32px;
+        text-align    : center;
+        font-weight   : 600;
     }
 
     &-text {
@@ -12,15 +11,14 @@
     }
 
     &-icon {
-       font-size: 48px; 
+        font-size: 48px;
     }
 
     &-row-container {
-        height: 400px !important;
+        height : 400px !important;
         padding: 50px 0 50px 0 !important;
     }
 
-    // Container Specific
     &-backdrop {
         height             : 100vh;
         background-image   : url(https://images.unsplash.com/photo-1543269664-56d93c1b41a6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80);
@@ -33,7 +31,7 @@
         background-color: black;
         opacity         : 0.8;
 
-        p,span {
+        p, span {
             color        : white;
             margin-bottom: 0 !important;
         }
@@ -46,37 +44,56 @@
         &-content {
             font-size: 24px;
         }
+
+        &-button {
+            a {
+                text-decoration: none;
+                color          : white;
+            }
+
+            background-color: transparent;
+            width           : 250px;
+            height          : 65px;
+            color           : white;
+            text-transform  : uppercase;
+            font-size       : 18px;
+            font-weight     : 600;
+
+            &:hover {
+                background-color: #606060FF;
+            }
+        }
     }
-    
+
     &-content {
-        background-image: url(https://images.unsplash.com/photo-1516541196182-6bdb0516ed27?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80);
+        background-image   : url(https://images.unsplash.com/photo-1516541196182-6bdb0516ed27?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80);
         background-position: center;
         background-repeat  : no-repeat;
         background-size    : cover;
-        text-align: center;
-        padding-left: 200px !important;
-        padding-right: 200px !important;
-        display: flex;
-        justify-content: center;
-        flex-direction: column;
+        text-align         : center;
+        padding-left       : 200px !important;
+        padding-right      : 200px !important;
+        display            : flex;
+        justify-content    : center;
+        flex-direction     : column;
     }
 
     &-expertise {
-        background-image: url(https://images.unsplash.com/photo-1516541196182-6bdb0516ed27?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80);
+        background-image   : url(https://images.unsplash.com/photo-1516541196182-6bdb0516ed27?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80);
         background-position: center;
         background-repeat  : no-repeat;
         background-size    : cover;
 
         &-card {
-            width: 250px !important;
-            height: 250px !important;
+            width           : 250px !important;
+            height          : 250px !important;
             background-color: transparent;
-            border: 1px solid #606060FF;
-            padding: 10px;
-            text-align: center;
+            border          : 1px solid #606060FF;
+            padding         : 10px;
+            text-align      : center;
 
             &:hover {
-                color: white;
+                color           : white;
                 background-color: #606060FF;
             }
         }
@@ -86,15 +103,15 @@
         background-color: #606060FF;
 
         &-card {
-            width: 400px !important;
-            height: 300px !important;
+            width           : 400px !important;
+            height          : 300px !important;
             background-color: transparent;
-            border: 1px solid white;
-            padding: 10px;
-            text-align: center;
-            display: flex;
-            justify-content: center;
-            color: white;
+            border          : 1px solid white;
+            padding         : 10px;
+            text-align      : center;
+            display         : flex;
+            justify-content : center;
+            color           : white;
         }
     }
 }
@@ -102,9 +119,116 @@
 // Mobile Screen
 @media (max-width: 688px) {
     .app {
+        &-title {
+            font-size: 18px;
+        }
+
+        &-text {
+            font-size: 12px;
+        }
+
+        &-row-container {
+            height: unset !important;
+        }
+
         &-brand {
             &-title {
                 font-size: 24px;
+            }
+
+            &-content {
+                font-size: 16px;
+            }
+
+            &-button {
+                height   : 35px;
+                width    : 200px;
+                font-size: 12px;
+            }
+        }
+
+        &-content {
+            padding: 20px !important;
+        }
+
+        &-description {
+            flex-direction: column !important;
+            padding: 0.5em !important;
+
+            &-card {
+                margin: 0.5em !important;
+                width: unset !important;
+            }
+        }
+
+        &-expertise {
+            &-container {
+                flex-direction: column !important;
+            }
+
+            &-card {
+                width: 300px !important;
+                height: 150px !important;
+                margin: 10px;
+            }
+        }
+    }
+}
+
+// Tablet Screen
+@media (max-width: 992px) and (min-width: 689px) {
+    .app {
+        &-title {
+            font-size: 28px;
+        }
+
+        &-text {
+            font-size: 16px;
+        }
+
+        &-row-container {
+            height: unset !important;
+        }
+
+        &-brand {
+            &-title {
+                font-size: 36px;
+            }
+
+            &-content {
+                font-size: 16px;
+            }
+
+            &-button {
+                height   : 45px;
+                width    : 200px;
+                font-size: 14px;
+            }
+        }
+
+        &-content {
+            padding: 20px !important;
+        }
+
+        &-description {
+            flex-direction: column !important;
+            padding: 0.5em !important;
+
+            &-card {
+                margin: 0.5em !important;
+                width: unset !important;
+            }
+        }
+
+        &-expertise {
+            &-container {
+                flex-direction: column !important;
+            }
+
+            &-card {
+                width: 450px !important;
+                height: 150px !important;
+                margin: 10px;
             }
         }
     }

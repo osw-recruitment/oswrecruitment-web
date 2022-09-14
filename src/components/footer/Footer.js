@@ -7,12 +7,12 @@ const Footer = () => {
         <div className="footer-backdrop px-5 py-4 d-flex justify-content-between">
           <div className="footer-details-location px-2 d-flex justify-content-center align-items-center flex-column">
             <i className="bi bi-geo-alt footer-details-location-icon"></i>
-            <p>No 88, Dambakandawattha</p>
-            <p>Boyagane, Kurunegala 60000</p>
+            <p>No 28, Kovila Road</p>
+            <p>Kurunegala 60000</p>
             <p>Sri Lanka</p>
           </div>
           <div className="footer-details-email px-2 d-flex justify-content-center align-items-center flex-column">
-            <i class="bi bi-envelope-open footer-details-location-icon"></i>
+            <i className="bi bi-envelope-open footer-details-location-icon"></i>
             <p>
               <a href="mailto:contact@oswrecruitment.com">
                 Email: contact@oswrecruitment.com
@@ -20,8 +20,12 @@ const Footer = () => {
             </p>
           </div>
           <div className="footer-details-phone px-2 d-flex justify-content-center align-items-center flex-column">
-            <i class="bi bi-telephone-inbound footer-details-location-icon"></i>
-            <p>Telephone: +64277600103</p>
+            <i className="bi bi-telephone-inbound footer-details-location-icon"></i>
+            <p>
+              <a href="tel:+64-220-143-109">
+                Mobile: +64220143109
+              </a>
+            </p>
           </div>
         </div>
       </div>

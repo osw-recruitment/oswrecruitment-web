@@ -20,6 +20,12 @@ const App = () => {
             backSpeed={150}
             loop
           />
+          <button className="app-brand-button mt-3">
+            <a href="mailto:contact@oswrecruitment.com?subject=CV%20for%20Overseas%20Job%20Opportunities%20">
+              Send your CV
+              <i className="bi bi-send ms-2 app-brand-button-icon"></i>
+            </a>
+          </button>
         </div>
       </div>
 
@@ -32,7 +38,7 @@ const App = () => {
           companies in Sri Lanka. We operate through a network of our worldwide
           teams, with specialists in recruitment for different industries.
         </p>
-        <p className="app-content-text">
+        <p className="app-text">
           If you are on the lookout for highly experienced and qualified
           employees, then rest assured that our manpower supply company has the
           potential to offer premium consultancy services dedicated to
@@ -63,21 +69,21 @@ const App = () => {
 
       <div className="app-expertise app-row-container d-flex align-items-center flex-column justify-content-center">
         <p className="app-title">Our Expertise</p>
-        <div className="d-flex justify-content-center">
+        <div className="app-expertise-container d-flex justify-content-center">
           <div className="app-expertise-card d-flex justify-content-center align-items-center flex-column mx-3">
-            <i class="bi bi-hospital app-icon"></i>
+            <i className="bi bi-hospital app-icon"></i>
             <p className="app-text">Healthcare</p>
           </div>
           <div className="app-expertise-card  d-flex justify-content-center align-items-center flex-column mx-3">
-            <i class="bi bi-bag-heart app-icon"></i>
+            <i className="bi bi-bag-heart app-icon"></i>
             <p className="app-text">Hospitality</p>
           </div>
           <div className="app-expertise-card  d-flex justify-content-center align-items-center flex-column mx-3">
-            <i class="bi bi-cone-striped app-icon"></i>
+            <i className="bi bi-cone-striped app-icon"></i>
             <p className="app-text">Engineering and Construction</p>
           </div>
           <div className="app-expertise-card  d-flex justify-content-center align-items-center flex-column mx-3">
-            <i class="bi bi-laptop app-icon"></i>
+            <i className="bi bi-laptop app-icon"></i>
             <p className="app-text">Information Technology</p>
           </div>
         </div>

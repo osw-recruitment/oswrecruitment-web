@@ -89,6 +89,44 @@ const App = () => {
         </div>
       </div>
 
+      <div className="app-hiw app-row-container">
+        <p className="app-title">How it works</p>
+        <div className="app-hiw-container d-flex justify-content-around align-items-center pt-4">
+          <div className="app-hiw-container-card">
+            <p className="app-hiw-index">01</p>
+            <div className="app-hiw-backdrop">
+              <i className="bi bi-info-circle"></i>
+              <p className="app-text">Send us your details</p>
+            </div>
+          </div>
+          <div className="app-hiw-container-card">
+            <p className="app-hiw-index">02</p>
+            <div className="app-hiw-backdrop">
+              <i className="bi bi-briefcase"></i>
+              <p className="app-text">
+                We will find the correct job offer for you
+              </p>
+            </div>
+          </div>
+          <div className="app-hiw-container-card">
+            <p className="app-hiw-index">03</p>
+            <div className="app-hiw-backdrop">
+              <i className="bi bi-pass"></i>
+              <p className="app-text">Help you to apply for the work visa</p>
+            </div>
+          </div>
+          <div className="app-hiw-container-card">
+            <p className="app-hiw-index">04</p>
+            <div className="app-hiw-backdrop">
+              <i className="bi bi-airplane-engines"></i>
+              <p className="app-text">
+                You can come to your dream country to work
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <Footer />
     </div>
   );

@@ -51,11 +51,16 @@
     }
 
     &-socials {
-        min-height: 75px !important;
-        background-color: #606060FF;
+        min-height: 50px !important;
+        background-color: black;
         color: white;
-        font-size: 20px;
+        font-size: 16px;
         font-weight: 600;
+    }
+
+    &-socials:before {
+        content: '';
+        border: 1px solid saddlebrown;
     }
 }
 

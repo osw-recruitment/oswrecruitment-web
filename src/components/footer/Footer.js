@@ -23,7 +23,7 @@ const Footer = () => {
             <i className="bi bi-telephone-inbound footer-details-location-icon"></i>
             <p>
               <a href="tel:+64-220-143-109">
-                Mobile: +64220143109
+                Mobile: +64220143109, +94713332696, +94759932324
               </a>
             </p>
           </div>

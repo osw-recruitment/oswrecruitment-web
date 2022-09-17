@@ -1,6 +1,6 @@
 version: 2.1
 jobs:
-  build:
+  build-and-deploy-firebase:
     docker:
       - image: node:18.4.0-alpine
     steps:
@@ -15,15 +15,6 @@ jobs:
       - run:
           name: Build application for production
           command: yarn build
-
-  deploy:
-    docker:
-      - image: node:18.4.0-alpine
-    steps:
-      - checkout
-      - run:
-          name: Build application for deployment
-          command: yarn build
       - run:
           name: Install firebase tools
           command: npm install -g firebase-tools   
@@ -34,10 +25,7 @@ jobs:
 workflows:
   build-and-deploy:
     jobs:
-      - build
-      - deploy:
-          requires:
-            - build
+      - build-and-deploy-firebase:
           filters:
             branches:
               only:

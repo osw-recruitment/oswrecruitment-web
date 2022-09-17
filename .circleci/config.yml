@@ -8,7 +8,7 @@ jobs:
       - checkout
       - run:
           name: Install Dependencies
-          command: yarn install
+          command: npm install
       - run: npm install -g firebase-tools    
       - save_cache:
           key: dependency-cache-{{ checksum "package-lock.json" }}
@@ -16,7 +16,7 @@ jobs:
             - ./node_modules
       - run:
           name: Build application for production
-          command: yarn build
+          command: npm run build
 
   deploy:
     working_directory: ~/project
@@ -26,7 +26,7 @@ jobs:
       - checkout
       - run:
           name: Deploy app to Firebase
-          command: ./node_modules/.bin/firebase deploy --token=$FIREBASE_TOKEN
+          command: firebase deploy --token=$FIREBASE_TOKEN
 
 workflows:
   build-and-deploy:

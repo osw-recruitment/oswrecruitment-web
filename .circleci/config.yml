@@ -8,20 +8,20 @@ jobs:
       - checkout
       - run:
           name: Update NPM
-          command: "sudo npm install -g npm"
+          command: "sudo apt install yarn"
       - restore_cache:
-          key: dependency-cache-{{ checksum "package-lock.json" }}
+          key: dependency-cache-{{ checksum "yarn.lock" }}
       - run:
           name: Install Dependencies
           command: npm install
-      - run: npm install --save-dev firebase-tools    
+      - run: yarn add --save-dev firebase-tools    
       - save_cache:
-          key: dependency-cache-{{ checksum "package-lock.json" }}
+          key: dependency-cache-{{ checksum "yarn.lock" }}
           paths:
             - ./node_modules
       - run:
           name: Build application for production
-          command: npm run build
+          command: yarn build
 
   deploy:
     working_directory: ~/project

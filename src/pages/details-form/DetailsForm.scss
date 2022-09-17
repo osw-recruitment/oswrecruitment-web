@@ -1,0 +1,28 @@
+.details-form {
+    height: 100vh !important;
+    width: 100%;
+    
+    &-load {
+        background-image: url(https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80);
+        background-position: center;
+        background-repeat  : no-repeat;
+        background-size    : cover;
+        width: 100%;
+
+        &-overlay {
+            background-color: black;
+            opacity: 0.8;
+            height: 100vh !important;
+        }
+
+        &-text {
+            font-size: 16px;
+            font-weight: 700;
+            color: white;
+        }
+    }
+
+    &-hidden {
+        display: none;
+    }
+}

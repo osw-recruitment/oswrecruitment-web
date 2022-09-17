@@ -3,30 +3,27 @@ jobs:
   build:
     working_directory: ~/project
     docker:
-      - image: vitiya99/cicd-base:latest
+      - image: vitiya99/react-base:1.0.0
     steps:
       - checkout
-      - run:
-          name: Install NPM
-          command: "sudo apt install nodejs npm"
       - restore_cache:
-          key: dependency-cache-{{ checksum "package-lock.json" }}
+          key: dependency-cache-{{ checksum "yarn.lock" }}
       - run:
           name: Install Dependencies
-          command: npm install
-      - run: npm install --save-dev firebase-tools    
+          command: yarn install
+      - run: yarn add --save-dev firebase-tools    
       - save_cache:
-          key: dependency-cache-{{ checksum "package-lock.json" }}
+          key: dependency-cache-{{ checksum "yarn.lock" }}
           paths:
             - ./node_modules
       - run:
           name: Build application for production
-          command: npm run build
+          command: yarn build
 
   deploy:
     working_directory: ~/project
     docker:
-      - image: vitiya99/cicd-base:latest
+      - image: vitiya99/react-base:1.0.0
     steps:
       - checkout
       - run:

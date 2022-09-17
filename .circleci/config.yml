@@ -1,7 +1,6 @@
 version: 2.1
 jobs:
   build:
-    working_directory: ~/project
     docker:
       - image: node:18.4.0-alpine
     steps:
@@ -18,7 +17,6 @@ jobs:
           command: yarn build
 
   deploy:
-    working_directory: ~/project
     docker:
       - image: node:18.4.0-alpine
     steps:

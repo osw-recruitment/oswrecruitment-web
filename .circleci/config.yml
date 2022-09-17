@@ -3,14 +3,9 @@ jobs:
   build:
     working_directory: ~/project
     docker:
-      - image: cimg/node:17.4.0
+      - image: vitiya99/react-base:1.0.1
     steps:
       - checkout
-      - run:
-          name: Update NPM
-          command: "sudo apt install nodejs npm"
-      - restore_cache:
-          key: dependency-cache-{{ checksum "package-lock.json" }}
       - run:
           name: Install Dependencies
           command: npm install

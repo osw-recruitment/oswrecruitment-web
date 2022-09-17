@@ -3,30 +3,30 @@ jobs:
   build:
     working_directory: ~/project
     docker:
-      - image: cimg/node:17.4.0
+      - image: vitiya99/cicd-base:latest
     steps:
       - checkout
       - run:
-          name: Update NPM
-          command: "sudo apt install yarn"
+          name: Install NPM
+          command: "sudo apt install nodejs npm"
       - restore_cache:
-          key: dependency-cache-{{ checksum "yarn.lock" }}
+          key: dependency-cache-{{ checksum "package-lock.json" }}
       - run:
           name: Install Dependencies
           command: npm install
-      - run: yarn add --save-dev firebase-tools    
+      - run: npm install --save-dev firebase-tools    
       - save_cache:
-          key: dependency-cache-{{ checksum "yarn.lock" }}
+          key: dependency-cache-{{ checksum "package-lock.json" }}
           paths:
             - ./node_modules
       - run:
           name: Build application for production
-          command: yarn build
+          command: npm run build
 
   deploy:
     working_directory: ~/project
     docker:
-      - image: cimg/node:18.4.0
+      - image: vitiya99/cicd-base:latest
     steps:
       - checkout
       - run:

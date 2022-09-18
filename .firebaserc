@@ -1,5 +1,9 @@
 {
   "projects": {
-    "default": "oswrecruitment"
-  }
+    "default": "oswrecruitment",
+    "dev": "dev-oswrecruitment",
+    "stage": "stage-oswrecruitment"
+  },
+  "targets": {},
+  "etags": {}
 }

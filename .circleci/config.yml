@@ -15,14 +15,14 @@ jobs:
       - run:
           name: Build application for production
           command: yarn build
-      - run:
-          name: Install firebase tools
-          command: npm install -g firebase-tools
       # Deploy application on development server, when branch name === develop
       - when:
           condition:
             equal: [ develop, << pipeline.git.branch >> ]
           steps:
+            - run:
+                name: "Install firebase tools"
+                command: npm install -g firebase-tools
             - run: 
                 name: "Deploy application to dev.oswrecruitment.com"
                 command: firebase deploy --token=$FIREBASE_TOKEN -P dev
@@ -31,6 +31,9 @@ jobs:
           condition:
             equal: [ stage, << pipeline.git.branch >> ]
           steps:
+            - run:
+                name: "Install firebase tools"
+                command: npm install -g firebase-tools
             - run: 
                 name: "Deploy application to stage.oswrecruitment.com"
                 command: firebase deploy --token=$FIREBASE_TOKEN -P stage
@@ -39,6 +42,9 @@ jobs:
           condition:
             equal: [ release, << pipeline.git.branch >> ]
           steps:
+            - run:
+                name: "Install firebase tools"
+                command: npm install -g firebase-tools
             - run: 
                 name: "Deploy application to oswrecruitment.com"
                 command: firebase deploy --token=$FIREBASE_TOKEN
@@ -46,4 +52,10 @@ jobs:
 workflows:
   build-and-deploy:
     jobs:
-      - build-and-deploy-firebase
+      - build-and-deploy-firebase:
+          filters:
+            branches:
+              only:
+                - develop
+                - devops/*
+                - feature/*

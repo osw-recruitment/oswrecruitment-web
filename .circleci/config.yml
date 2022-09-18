@@ -52,10 +52,4 @@ jobs:
 workflows:
   build-and-deploy:
     jobs:
-      - build-and-deploy-firebase:
-          filters:
-            branches:
-              only:
-                - develop
-                - devops/*
-                - feature/*
+      - build-and-deploy-firebase

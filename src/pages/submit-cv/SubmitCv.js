@@ -7,6 +7,8 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Header from "../../components/header/Header";
 import "./SubmitCv.scss";
+import { allJobs } from "../../constants/jobs";
+import { useEffect } from "react";
 
 const SubmitCv = () => {
   const initialFormState = {
@@ -42,7 +44,7 @@ const SubmitCv = () => {
     },
     qualifications: {
       label: "Do you have qualifications ?",
-      value: "",
+      value: false,
       required: true,
     },
     typeOfQualification: {
@@ -57,16 +59,18 @@ const SubmitCv = () => {
     },
     beforeInNZ: {
       label: "Have you ever been to New Zealand",
-      value: "",
+      value: false,
       required: true,
     },
     interestInNZ: {
-      label: "What job/s would you be interested in when you move to New Zealand",
+      label:
+        "What job/s would you be interested in when you move to New Zealand",
       value: "",
       required: true,
     },
     interestedRoles: {
-      label: "If the role you are interested in isn't exactly listed above, please describe",
+      label:
+        "If the role you are interested in isn't exactly listed above, please describe",
       value: "",
       required: true,
     },
@@ -77,7 +81,7 @@ const SubmitCv = () => {
     },
     isBringFamilyMembers: {
       label: "Will you be bringing family members with you ?",
-      value: "",
+      value: false,
       required: true,
     },
     isInitiallyOnlyYou: {
@@ -91,32 +95,37 @@ const SubmitCv = () => {
       required: true,
     },
     checkedOnQualifications: {
-      label: "Have you checked to see if your qualifications transfer to New Zealand’s qualification framework levels for your trade or profession?",
-      value: "",
+      label:
+        "Have you checked to see if your qualifications transfer to New Zealand’s qualification framework levels for your trade or profession?",
+      value: false,
       required: true,
     },
     topThreeCities: {
-      label: "Please name the 3 top towns or cities where you would prefer to work and explain why? You must enter at least 3 options.",
+      label:
+        "Please name the 3 top towns or cities where you would prefer to work and explain why? You must enter at least 3 options.",
       value: "",
       required: true,
     },
     friendsInNZ: {
-      label: "Do you have any friends, family or colleagues who might like to come to New Zealand to work?",
-      value: "",
+      label:
+        "Do you have any friends, family or colleagues who might like to come to New Zealand to work?",
+      value: false,
       required: true,
     },
     specificLocationToLiveInNZ: {
       label: "Do you have somewhere to live when you arrive in New Zealand?",
-      value: "",
+      value: false,
       required: true,
     },
     otherInfo: {
-      label: "Anything else you want to share with us about what you are looking for?",
+      label:
+        "Anything else you want to share with us about what you are looking for?",
       value: "",
       required: true,
     },
     durationToArrive: {
-      label: "If you were successful obtaining a job offer – how long before you could arrive in New Zealand and start work?",
+      label:
+        "If you were successful obtaining a job offer – how long before you could arrive in New Zealand and start work?",
       value: "",
       required: true,
     },
@@ -142,10 +151,31 @@ const SubmitCv = () => {
     setForm({ [field]: curr });
   };
 
+  const handleOnChangeCheck = (event, field) => {
+    let curr = form[field];
+    curr.value = event?.target?.checked;
+    setForm({ [field]: curr });
+  };
+
+  const handelOnChangeDropdown = (event, field) => {
+    let curr = form[field];
+    curr.value =
+      allJobs.find((job) => job.code === event?.target?.value).name ?? "";
+    setForm({ [field]: curr });
+  };
+
+  const buildVO = () => {
+    const details = {}
+    Object.keys(form).forEach(k => {
+      details[k] = form[k]?.value ?? ""
+    })
+    return details;
+  }
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    const form = event.currentTarget;
-    if (form.checkValidity() === false) {
+    const formObj = event.currentTarget;
+    if (formObj.checkValidity() === false) {
       event.stopPropagation();
     } else {
       handleImageUpload();
@@ -172,12 +202,8 @@ const SubmitCv = () => {
         .then((res) => {
           getDownloadURL(pdfRef)
             .then((urlRes) => {
-              const currClient = {
-                firstName: form?.firstName?.value,
-                lastName: form?.lastName?.value,
-                email: form?.email?.value,
-                cvUrl: urlRes,
-              };
+              const currClient = buildVO()
+              currClient["curriculumVitae"] = urlRes
               handleSaveData(currClient);
               handleSendEmail(currClient);
             })
@@ -272,6 +298,365 @@ const SubmitCv = () => {
                 className="form-control"
               />
               <Form.Control.Feedback type="invalid">{`Please enter ${form?.lastName?.label?.toLowerCase()}`}</Form.Control.Feedback>
+            </div>
+
+            <div className="submit-cv-container-form-section">
+              <Form.Label
+                htmlFor={`input-${form?.currentCountry?.label}`}
+                className="form-label"
+                required={true}
+              >
+                {form?.currentCountry?.label}
+              </Form.Label>
+              <Form.Control
+                type="text"
+                required={form?.currentCountry?.required}
+                id={`input-${form?.currentCountry?.label}`}
+                value={form?.currentCountry?.value}
+                placeholder={form?.currentCountry?.label}
+                onChange={(e) => handleOnChange(e, "currentCountry")}
+                className="form-control"
+              />
+              <Form.Control.Feedback type="invalid">{`Please enter ${form?.currentCountry?.label?.toLowerCase()}`}</Form.Control.Feedback>
+            </div>
+            <div className="submit-cv-container-form-section">
+              <Form.Label
+                htmlFor={`input-${form?.currentJob?.label}`}
+                className="form-label"
+                required={true}
+              >
+                {form?.currentJob?.label}
+              </Form.Label>
+              <Form.Control
+                type="text"
+                required={form?.currentJob?.required}
+                id={`input-${form?.currentJob?.label}`}
+                value={form?.currentJob?.value}
+                placeholder={form?.currentJob?.label}
+                onChange={(e) => handleOnChange(e, "currentJob")}
+                className="form-control"
+              />
+              <Form.Control.Feedback type="invalid">{`Please enter ${form?.experience?.label?.toLowerCase()}`}</Form.Control.Feedback>
+            </div>
+            <div className="submit-cv-container-form-section">
+              <Form.Label
+                htmlFor={`input-${form?.experience?.label}`}
+                className="form-label"
+                required={true}
+              >
+                {form?.experience?.label}
+              </Form.Label>
+              <Form.Control
+                type="text"
+                required={form?.experience?.required}
+                id={`input-${form?.experience?.label}`}
+                value={form?.experience?.value}
+                placeholder={form?.experience?.label}
+                onChange={(e) => handleOnChange(e, "experience")}
+                className="form-control"
+              />
+              <Form.Control.Feedback type="invalid">{`Please enter ${form?.experience?.label?.toLowerCase()}`}</Form.Control.Feedback>
+            </div>
+            <div className="submit-cv-container-form-section">
+              <Form.Label
+                htmlFor={`input-${form?.qualifications?.label}`}
+                className="form-label"
+                required={true}
+              >
+                {form?.qualifications?.label}
+              </Form.Label>
+              <Form.Check
+                type="switch"
+                required={form?.qualifications?.required}
+                id={`input-${form?.qualifications?.label}`}
+                value={form?.qualifications?.value}
+                onChange={(e) => handleOnChangeCheck(e, "qualifications")}
+              />
+              <Form.Control.Feedback type="invalid">{`Please enter ${form?.currentJob?.label?.toLowerCase()}`}</Form.Control.Feedback>
+            </div>
+            {/* <div className="submit-cv-container-form-section">
+              <Form.Label
+                htmlFor={`input-${form?.qualifications?.label}`}
+                className="form-label"
+                required={true}
+              >
+                {form?.qualifications?.label}
+              </Form.Label>
+              {["Trade certification", "On the job experience", "Diploma"].map(
+                (item) => {
+                  <Form.Check
+                    type="checkbox"
+                    required={form?.qualifications?.required}
+                    id={`input-${form?.qualifications?.label}`}
+                    value={form?.qualifications?.value}
+                    onChange={(e) => handleOnChange(e, "qualifications")} // TODO
+                  />;
+                }
+              )}
+              <Form.Control.Feedback type="invalid">{`Please enter ${form?.currentJob?.label?.toLowerCase()}`}</Form.Control.Feedback>
+            </div> */}
+            <div className="submit-cv-container-form-section">
+              <Form.Label
+                htmlFor={`input-${form?.otherQualification?.label}`}
+                className="form-label"
+                required={true}
+              >
+                {form?.otherQualification?.label}
+              </Form.Label>
+              <Form.Control
+                type="text"
+                required={form?.otherQualification?.required}
+                id={`input-${form?.otherQualification?.label}`}
+                value={form?.otherQualification?.value}
+                placeholder={form?.otherQualification?.label}
+                onChange={(e) => handleOnChange(e, "otherQualification")}
+                className="form-control"
+              />
+              <Form.Control.Feedback type="invalid">{`Please enter ${form?.otherQualification?.label?.toLowerCase()}`}</Form.Control.Feedback>
+            </div>
+            <div className="submit-cv-container-form-section">
+              <Form.Label
+                htmlFor={`input-${form?.beforeInNZ?.label}`}
+                className="form-label"
+                required={true}
+              >
+                {form?.beforeInNZ?.label}
+              </Form.Label>
+              <Form.Check
+                type="switch"
+                required={form?.beforeInNZ?.required}
+                id={`input-${form?.beforeInNZ?.label}`}
+                value={form?.beforeInNZ?.value}
+                onChange={(e) => handleOnChangeCheck(e, "beforeInNZ")}
+              />
+              <Form.Control.Feedback type="invalid">{`Please enter ${form?.beforeInNZ?.label?.toLowerCase()}`}</Form.Control.Feedback>
+            </div>
+            <div className="submit-cv-container-form-section">
+              <Form.Label
+                htmlFor={`input-${form?.interestInNZ?.label}`}
+                className="form-label"
+                required={true}
+              >
+                {form?.interestInNZ?.label}
+              </Form.Label>
+              <Form.Select
+                aria-label="Default select example"
+                onChange={(e) => handelOnChangeDropdown(e, "interestInNZ")}
+              >
+                {allJobs.map((job, index) => (
+                  <option value={job.code} key={index}>
+                    {job.name}
+                  </option>
+                ))}
+              </Form.Select>
+              <Form.Control.Feedback type="invalid">{`Please enter ${form?.interestInNZ?.label?.toLowerCase()}`}</Form.Control.Feedback>
+            </div>
+            <div className="submit-cv-container-form-section">
+              <Form.Label
+                htmlFor={`input-${form?.interestedRoles?.label}`}
+                className="form-label"
+                required={true}
+              >
+                {form?.interestedRoles?.label}
+              </Form.Label>
+              <Form.Control
+                type="text"
+                required={form?.interestedRoles?.required}
+                id={`input-${form?.interestedRoles?.label}`}
+                value={form?.interestedRoles?.value}
+                placeholder={form?.interestedRoles?.label}
+                onChange={(e) => handleOnChange(e, "interestedRoles")}
+                className="form-control"
+              />
+              <Form.Control.Feedback type="invalid">{`Please enter ${form?.interestedRoles?.label?.toLowerCase()}`}</Form.Control.Feedback>
+            </div>
+            <div className="submit-cv-container-form-section">
+              <Form.Label
+                htmlFor={`input-${form?.reasonToWorkInNZ?.label}`}
+                className="form-label"
+                required={true}
+              >
+                {form?.reasonToWorkInNZ?.label}
+              </Form.Label>
+              <Form.Control
+                type="text"
+                required={form?.reasonToWorkInNZ?.required}
+                id={`input-${form?.reasonToWorkInNZ?.label}`}
+                value={form?.reasonToWorkInNZ?.value}
+                placeholder={form?.reasonToWorkInNZ?.label}
+                onChange={(e) => handleOnChange(e, "reasonToWorkInNZ")}
+                className="form-control"
+              />
+              <Form.Control.Feedback type="invalid">{`Please enter ${form?.reasonToWorkInNZ?.label?.toLowerCase()}`}</Form.Control.Feedback>
+            </div>
+            <div className="submit-cv-container-form-section">
+              <Form.Label
+                htmlFor={`input-${form?.isBringFamilyMembers?.label}`}
+                className="form-label"
+                required={true}
+              >
+                {form?.isBringFamilyMembers?.label}
+              </Form.Label>
+              <Form.Check
+                type="switch"
+                required={form?.isBringFamilyMembers?.required}
+                id={`input-${form?.isBringFamilyMembers?.label}`}
+                value={form?.isBringFamilyMembers?.value}
+                onChange={(e) => handleOnChangeCheck(e, "isBringFamilyMembers")}
+              />
+              <Form.Control.Feedback type="invalid">{`Please enter ${form?.isBringFamilyMembers?.label?.toLowerCase()}`}</Form.Control.Feedback>
+            </div>
+
+            <div className="submit-cv-container-form-section">
+              <Form.Label
+                htmlFor={`input-${form?.isInitiallyOnlyYou?.label}`}
+                className="form-label"
+                required={true}
+              >
+                {form?.isInitiallyOnlyYou?.label}
+              </Form.Label>
+              <Form.Control
+                type="text"
+                required={form?.isInitiallyOnlyYou?.required}
+                id={`input-${form?.isInitiallyOnlyYou?.label}`}
+                value={form?.isInitiallyOnlyYou?.value}
+                placeholder={form?.isInitiallyOnlyYou?.label}
+                onChange={(e) => handleOnChange(e, "isInitiallyOnlyYou")}
+                className="form-control"
+              />
+              <Form.Control.Feedback type="invalid">{`Please enter ${form?.isInitiallyOnlyYou?.label?.toLowerCase()}`}</Form.Control.Feedback>
+            </div>
+            <div className="submit-cv-container-form-section">
+              <Form.Label
+                htmlFor={`input-${form?.durationInNZ?.label}`}
+                className="form-label"
+                required={true}
+              >
+                {form?.durationInNZ?.label}
+              </Form.Label>
+              <Form.Control
+                type="text"
+                required={form?.durationInNZ?.required}
+                id={`input-${form?.durationInNZ?.label}`}
+                value={form?.durationInNZ?.value}
+                placeholder={form?.durationInNZ?.label}
+                onChange={(e) => handleOnChange(e, "durationInNZ")}
+                className="form-control"
+              />
+              <Form.Control.Feedback type="invalid">{`Please enter ${form?.durationInNZ?.label?.toLowerCase()}`}</Form.Control.Feedback>
+            </div>
+            <div className="submit-cv-container-form-section">
+              <Form.Label
+                htmlFor={`input-${form?.checkedOnQualifications?.label}`}
+                className="form-label"
+                required={true}
+              >
+                {form?.checkedOnQualifications?.label}
+              </Form.Label>
+              <Form.Check
+                type="switch"
+                required={form?.checkedOnQualifications?.required}
+                id={`input-${form?.checkedOnQualifications?.label}`}
+                value={form?.checkedOnQualifications?.value}
+                onChange={(e) =>
+                  handleOnChangeCheck(e, "checkedOnQualifications")
+                }
+              />
+              <Form.Control.Feedback type="invalid">{`Please enter ${form?.checkedOnQualifications?.label?.toLowerCase()}`}</Form.Control.Feedback>
+            </div>
+
+            <div className="submit-cv-container-form-section">
+              <Form.Label
+                htmlFor={`input-${form?.topThreeCities?.label}`}
+                className="form-label"
+                required={true}
+              >
+                {form?.topThreeCities?.label}
+              </Form.Label>
+              <Form.Control
+                type="text"
+                required={form?.topThreeCities?.required}
+                id={`input-${form?.topThreeCities?.label}`}
+                value={form?.topThreeCities?.value}
+                placeholder={form?.topThreeCities?.label}
+                onChange={(e) => handleOnChange(e, "topThreeCities")}
+                className="form-control"
+              />
+              <Form.Control.Feedback type="invalid">{`Please enter ${form?.topThreeCities?.label?.toLowerCase()}`}</Form.Control.Feedback>
+            </div>
+            <div className="submit-cv-container-form-section">
+              <Form.Label
+                htmlFor={`input-${form?.friendsInNZ?.label}`}
+                className="form-label"
+                required={true}
+              >
+                {form?.friendsInNZ?.label}
+              </Form.Label>
+              <Form.Check
+                type="switch"
+                required={form?.friendsInNZ?.required}
+                id={`input-${form?.friendsInNZ?.label}`}
+                value={form?.friendsInNZ?.value}
+                onChange={(e) => handleOnChangeCheck(e, "friendsInNZ")}
+              />
+              <Form.Control.Feedback type="invalid">{`Please enter ${form?.friendsInNZ?.label?.toLowerCase()}`}</Form.Control.Feedback>
+            </div>
+            <div className="submit-cv-container-form-section">
+              <Form.Label
+                htmlFor={`input-${form?.specificLocationToLiveInNZ?.label}`}
+                className="form-label"
+                required={true}
+              >
+                {form?.specificLocationToLiveInNZ?.label}
+              </Form.Label>
+              <Form.Check
+                type="switch"
+                required={form?.specificLocationToLiveInNZ?.required}
+                id={`input-${form?.specificLocationToLiveInNZ?.label}`}
+                value={form?.specificLocationToLiveInNZ?.value}
+                onChange={(e) =>
+                  handleOnChangeCheck(e, "specificLocationToLiveInNZ")
+                }
+              />
+              <Form.Control.Feedback type="invalid">{`Please enter ${form?.specificLocationToLiveInNZ?.label?.toLowerCase()}`}</Form.Control.Feedback>
+            </div>
+            <div className="submit-cv-container-form-section">
+              <Form.Label
+                htmlFor={`input-${form?.otherInfo?.label}`}
+                className="form-label"
+                required={true}
+              >
+                {form?.otherInfo?.label}
+              </Form.Label>
+              <Form.Control
+                type="text"
+                required={form?.otherInfo?.required}
+                id={`input-${form?.otherInfo?.label}`}
+                value={form?.otherInfo?.value}
+                placeholder={form?.otherInfo?.label}
+                onChange={(e) => handleOnChange(e, "otherInfo")}
+                className="form-control"
+              />
+              <Form.Control.Feedback type="invalid">{`Please enter ${form?.otherInfo?.label?.toLowerCase()}`}</Form.Control.Feedback>
+            </div>
+            <div className="submit-cv-container-form-section">
+              <Form.Label
+                htmlFor={`input-${form?.durationToArrive?.label}`}
+                className="form-label"
+                required={true}
+              >
+                {form?.durationToArrive?.label}
+              </Form.Label>
+              <Form.Control
+                type="text"
+                required={form?.durationToArrive?.required}
+                id={`input-${form?.durationToArrive?.label}`}
+                value={form?.durationToArrive?.value}
+                placeholder={form?.durationToArrive?.label}
+                onChange={(e) => handleOnChange(e, "durationToArrive")}
+                className="form-control"
+              />
+              <Form.Control.Feedback type="invalid">{`Please enter ${form?.durationToArrive?.label?.toLowerCase()}`}</Form.Control.Feedback>
             </div>
             <div className="submit-cv-container-form-section">
               <Form.Label

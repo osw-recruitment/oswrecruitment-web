@@ -20,7 +20,7 @@ const Home = () => {
             loop
           />
           <div className="app-brand-contact d-flex">
-            <Link to={"/contact-form"}>
+            <Link to={"/submit-cv"}>
               <button className="app-brand-button mt-3 me-2">
                 Send your details
                 <i className="bi bi-send ms-2 app-brand-button-icon"></i>

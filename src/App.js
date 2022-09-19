@@ -29,7 +29,7 @@ const App = () => {
         <Route path="" element={<Home />} />
         <Route path="/auth" element={<GoogleAuth auth={auth} />} />
         <Route path="/contact-form" element={<DetailsForm />} />
-        <Route path="/submit-cv" element={<SubmitCv />} />
+        <Route path="/submit-details" element={<SubmitCv />} />
         <Route path="/view-clients" element={<ViewClients />} />
       </Routes>
     </BrowserRouter>

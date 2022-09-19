@@ -231,15 +231,16 @@ const SubmitCv = () => {
   };
 
   const handleSendEmail = (formDetails) => {
-    emailjs
-      .send(
-        "service-osw-sender",
-        "client-details",
-        formDetails,
-        "oSRDHY9ilSEasOTaZ"
-      )
-      .then((res) => (window.location.href = "/"))
-      .catch((err) => console.error(err));
+    window.location.href = "/"
+    // emailjs
+    //   .send(
+    //     "service-osw-sender",
+    //     "client-details",
+    //     formDetails,
+    //     "oSRDHY9ilSEasOTaZ"
+    //   )
+    //   .then((res) => (window.location.href = "/"))
+    //   .catch((err) => console.error(err));
   };
 
   return (

@@ -64,3 +64,18 @@ export const allJobs = [
         name: "Other (Not listed)"
     },
 ]
+
+export const allQualifications = [
+    {
+        code: "TCE",
+        name: "Trade certifications"
+    },
+    {
+        code: "OJE",
+        name: "On the job experience"
+    },
+    {
+        code: "DIP",
+        name: "Diploma"
+    }
+]

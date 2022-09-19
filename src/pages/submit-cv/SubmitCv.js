@@ -7,8 +7,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Header from "../../components/header/Header";
 import "./SubmitCv.scss";
-import { allJobs } from "../../constants/jobs";
-import { useEffect } from "react";
+import { allJobs, allQualifications } from "../../constants/form-data";
 
 const SubmitCv = () => {
   const initialFormState = {
@@ -49,7 +48,7 @@ const SubmitCv = () => {
     },
     typeOfQualification: {
       label: "What kind of qualification ?",
-      value: "",
+      value: [],
       required: true,
     },
     otherQualification: {
@@ -164,13 +163,25 @@ const SubmitCv = () => {
     setForm({ [field]: curr });
   };
 
+  const handleOnChangeCheckBox = (event, field, code) => {
+    let curr = form[field];
+    const newValue = allQualifications.find((qul) => qul.code === code).name ?? "";
+    if (curr?.value?.includes(newValue)) {
+      const newArr = curr?.value?.filter((c) => c !== newValue);
+      curr.value = newArr;
+    } else {
+      curr?.value?.push(newValue);
+    }
+    setForm({ [field]: curr });
+  };
+
   const buildVO = () => {
-    const details = {}
-    Object.keys(form).forEach(k => {
-      details[k] = form[k]?.value ?? ""
-    })
+    const details = {};
+    Object.keys(form).forEach((k) => {
+      details[k] = form[k]?.value ?? "";
+    });
     return details;
-  }
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -202,8 +213,8 @@ const SubmitCv = () => {
         .then((res) => {
           getDownloadURL(pdfRef)
             .then((urlRes) => {
-              const currClient = buildVO()
-              currClient["curriculumVitae"] = urlRes
+              const currClient = buildVO();
+              currClient["curriculumVitae"] = urlRes;
               handleSaveData(currClient);
               handleSendEmail(currClient);
             })
@@ -367,34 +378,34 @@ const SubmitCv = () => {
               </Form.Label>
               <Form.Check
                 type="switch"
-                required={form?.qualifications?.required}
                 id={`input-${form?.qualifications?.label}`}
                 value={form?.qualifications?.value}
                 onChange={(e) => handleOnChangeCheck(e, "qualifications")}
               />
               <Form.Control.Feedback type="invalid">{`Please enter ${form?.currentJob?.label?.toLowerCase()}`}</Form.Control.Feedback>
             </div>
-            {/* <div className="submit-cv-container-form-section">
+            <div className="submit-cv-container-form-section">
               <Form.Label
-                htmlFor={`input-${form?.qualifications?.label}`}
+                htmlFor={`input-${form?.typeOfQualification?.label}`}
                 className="form-label"
                 required={true}
               >
-                {form?.qualifications?.label}
+                {form?.typeOfQualification?.label}
               </Form.Label>
-              {["Trade certification", "On the job experience", "Diploma"].map(
-                (item) => {
-                  <Form.Check
-                    type="checkbox"
-                    required={form?.qualifications?.required}
-                    id={`input-${form?.qualifications?.label}`}
-                    value={form?.qualifications?.value}
-                    onChange={(e) => handleOnChange(e, "qualifications")} // TODO
-                  />;
-                }
-              )}
-              <Form.Control.Feedback type="invalid">{`Please enter ${form?.currentJob?.label?.toLowerCase()}`}</Form.Control.Feedback>
-            </div> */}
+              {allQualifications.map((q, index) => (
+                <Form.Check
+                  key={index}
+                  type="checkbox"
+                  id={`input-${form?.typeOfQualification?.label}`}
+                  value={q.code}
+                  onChange={(e) =>
+                    handleOnChangeCheckBox(e, "typeOfQualification", q?.code)
+                  }
+                  label={q.name}
+                />
+              ))}
+              <Form.Control.Feedback type="invalid">{`Please enter ${form?.typeOfQualification?.label?.toLowerCase()}`}</Form.Control.Feedback>
+            </div>
             <div className="submit-cv-container-form-section">
               <Form.Label
                 htmlFor={`input-${form?.otherQualification?.label}`}
@@ -424,7 +435,6 @@ const SubmitCv = () => {
               </Form.Label>
               <Form.Check
                 type="switch"
-                required={form?.beforeInNZ?.required}
                 id={`input-${form?.beforeInNZ?.label}`}
                 value={form?.beforeInNZ?.value}
                 onChange={(e) => handleOnChangeCheck(e, "beforeInNZ")}
@@ -499,7 +509,6 @@ const SubmitCv = () => {
               </Form.Label>
               <Form.Check
                 type="switch"
-                required={form?.isBringFamilyMembers?.required}
                 id={`input-${form?.isBringFamilyMembers?.label}`}
                 value={form?.isBringFamilyMembers?.value}
                 onChange={(e) => handleOnChangeCheck(e, "isBringFamilyMembers")}
@@ -555,7 +564,6 @@ const SubmitCv = () => {
               </Form.Label>
               <Form.Check
                 type="switch"
-                required={form?.checkedOnQualifications?.required}
                 id={`input-${form?.checkedOnQualifications?.label}`}
                 value={form?.checkedOnQualifications?.value}
                 onChange={(e) =>
@@ -594,7 +602,6 @@ const SubmitCv = () => {
               </Form.Label>
               <Form.Check
                 type="switch"
-                required={form?.friendsInNZ?.required}
                 id={`input-${form?.friendsInNZ?.label}`}
                 value={form?.friendsInNZ?.value}
                 onChange={(e) => handleOnChangeCheck(e, "friendsInNZ")}
@@ -611,7 +618,6 @@ const SubmitCv = () => {
               </Form.Label>
               <Form.Check
                 type="switch"
-                required={form?.specificLocationToLiveInNZ?.required}
                 id={`input-${form?.specificLocationToLiveInNZ?.label}`}
                 value={form?.specificLocationToLiveInNZ?.value}
                 onChange={(e) =>

@@ -56,7 +56,7 @@ jobs:
                 command: npm install -g firebase-tools
             - run: 
                 name: "Deploy application to oswrecruitment.com"
-                command: firebase deploy --token=$FIREBASE_TOKEN
+                command: firebase deploy --token=$FIREBASE_TOKEN -P default
 
 workflows:
   build-and-deploy:

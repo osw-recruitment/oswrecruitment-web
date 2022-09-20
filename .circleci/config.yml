@@ -35,8 +35,8 @@ jobs:
             equal: [ stage, << pipeline.git.branch >> ]
           steps:
             - run:
-                name: "Build project in 'DEV' environment"
-                command: yarn build:dev
+                name: "Build project in 'STAGE' environment"
+                command: yarn build:stage
             - run:
                 name: "Install firebase tools"
                 command: npm install -g firebase-tools
@@ -49,8 +49,8 @@ jobs:
             equal: [ release, << pipeline.git.branch >> ]
           steps:
             - run:
-                name: "Build project in 'DEV' environment"
-                command: yarn build:dev
+                name: "Build project in 'PROD' environment"
+                command: yarn build:prod
             - run:
                 name: "Install firebase tools"
                 command: npm install -g firebase-tools

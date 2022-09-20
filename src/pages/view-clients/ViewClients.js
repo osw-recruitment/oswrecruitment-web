@@ -8,6 +8,7 @@ import { clientRef } from "../../firebase";
 import Accordion from "react-bootstrap/Accordion";
 import { Table } from "react-bootstrap";
 import "./ViewClient.scss";
+import { errorNotification, warningNotification } from "../../components/notification/Notification";
 
 const ViewClients = () => {
   const [clients, setClients] = useState([]);
@@ -26,8 +27,10 @@ const ViewClients = () => {
       })
       .catch((err) => {
         if (err?.code === "permission-denied") {
+          warningNotification("You don't have permission to view clients")
           window.location.href = "/auth";
         } else {
+          errorNotification("Sorry! Unable view clients")
           console.error(err);
         }
       });

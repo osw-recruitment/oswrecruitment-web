@@ -2,7 +2,6 @@ import React, { useReducer, useState } from "react";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { addDoc } from "firebase/firestore";
 import { clientRef, storage } from "../../firebase";
-import emailjs from "@emailjs/browser";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Header from "../../components/header/Header";
@@ -133,6 +132,21 @@ const SubmitCv = () => {
       value: "",
       required: true,
     },
+    coverLetter: {
+      label: "Cover Letter",
+      value: "",
+      required: true,
+    },
+    qualificationDoc: {
+      label: "Qualifications",
+      value: "",
+      required: true,
+    },
+    proofOfExp: {
+      label: "Proof of Experience",
+      value: "",
+      required: true,
+    },
   };
   const [isValid, setIsValid] = useState(false);
   const [form, setForm] = useReducer(
@@ -143,10 +157,13 @@ const SubmitCv = () => {
 
   const handleOnChange = (event, field) => {
     let curr = form[field];
-    curr.value =
-      field !== "curriculumVitae"
-        ? event?.target?.value
-        : event?.target?.files[0];
+    curr.value = event?.target?.value;
+    setForm({ [field]: curr });
+  };
+
+  const handleOnChangeFile = (event, field) => {
+    let curr = form[field];
+    curr.value = event?.target?.files[0];
     setForm({ [field]: curr });
   };
 
@@ -165,7 +182,8 @@ const SubmitCv = () => {
 
   const handleOnChangeCheckBox = (event, field, code) => {
     let curr = form[field];
-    const newValue = allQualifications.find((qul) => qul.code === code).name ?? "";
+    const newValue =
+      allQualifications.find((qul) => qul.code === code).name ?? "";
     if (curr?.value?.includes(newValue)) {
       const newArr = curr?.value?.filter((c) => c !== newValue);
       curr.value = newArr;
@@ -201,46 +219,69 @@ const SubmitCv = () => {
     setIsValid(false);
   };
 
+  const handleFirebaseUpload = (ref, field) => {
+    return uploadBytes(ref, form[field].value);
+  };
+
+  const handleFirebaseUrl = (ref) => {
+    return getDownloadURL(ref);
+  };
+
   const handleImageUpload = () => {
     if (form?.curriculumVitae?.value !== null) {
-      const pdfRef = ref(
+      const cvRef = ref(
         storage,
         `curriculum-vitae/${
           form?.curriculumVitae?.value?.name + "_" + new Date().toISOString()
         }`
       );
-      uploadBytes(pdfRef, form?.curriculumVitae?.value)
-        .then((res) => {
-          getDownloadURL(pdfRef)
-            .then((urlRes) => {
-              const currClient = buildVO();
-              currClient["curriculumVitae"] = urlRes;
-              handleSaveData(currClient);
-              handleSendEmail(currClient);
-            })
-            .catch((err) => console.error(err));
-        })
-        .catch((err) => {
-          console.error(err);
-        });
+      const clRef = ref(
+        storage,
+        `cover-letter/${
+          form?.coverLetter?.value?.name + "_" + new Date().toISOString()
+        }`
+      );
+      const qulRef = ref(
+        storage,
+        `qualification/${
+          form?.qualifications?.value?.name + "_" + new Date().toISOString()
+        }`
+      );
+      const poeRef = ref(
+        storage,
+        `proof-of-exp/${
+          form?.proofOfExp?.value?.name + "_" + new Date().toISOString()
+        }`
+      );
+      const currClient = buildVO();
+      handleFirebaseUpload(cvRef, "curriculumVitae").then((res) => {
+        handleFirebaseUrl(cvRef).then((cvSrc) => {
+          currClient["curriculumVitae"] = cvSrc ?? null;
+          handleFirebaseUpload(clRef, "coverLetter").then((res) => {
+            handleFirebaseUrl(clRef).then((clSrc) => {
+              currClient["coverLetter"] = clSrc ?? null;
+              handleFirebaseUpload(qulRef, "qualificationDoc").then((res) => {
+                handleFirebaseUrl(qulRef).then((quSrc) => {
+                  currClient["qualificationDoc"] = quSrc ?? null;
+                  handleFirebaseUpload(poeRef, "proofOfExp").then((res) => {
+                    handleFirebaseUrl(poeRef).then((poeSrc) => {
+                      currClient["proofOfExp"] = poeSrc ?? null;
+                      handleSaveData(currClient);
+                    }).catch(err => console.error(err))
+                  }).catch(err => console.error(err))
+                }).catch(err => console.error(err))
+              }).catch(err => console.error(err))
+            }).catch(err => console.error(err))
+          }).catch(err => console.error(err))
+        }).catch(err => console.error(err))
+      }).catch(err => console.error(err))
     }
   };
 
   const handleSaveData = (details) => {
-    addDoc(clientRef, details).catch((err) => console.error(err));
-  };
-
-  const handleSendEmail = (formDetails) => {
-    window.location.href = "/"
-    // emailjs
-    //   .send(
-    //     "service-osw-sender",
-    //     "client-details",
-    //     formDetails,
-    //     "oSRDHY9ilSEasOTaZ"
-    //   )
-    //   .then((res) => (window.location.href = "/"))
-    //   .catch((err) => console.error(err));
+    addDoc(clientRef, details)
+      .then((res) => (window.location.href = "/"))
+      .catch((err) => console.error(err));
   };
 
   return (
@@ -591,7 +632,7 @@ const SubmitCv = () => {
                 onChange={(e) => handleOnChange(e, "topThreeCities")}
                 className="form-control"
               />
-              <Form.Control.Feedback type="invalid">{`Please enter ${form?.topThreeCities?.label?.toLowerCase()}`}</Form.Control.Feedback>
+              <Form.Control.Feedback type="invalid">{`Please enter top three towns or cities where you prefer to work`}</Form.Control.Feedback>
             </div>
             <div className="submit-cv-container-form-section">
               <Form.Label
@@ -678,9 +719,60 @@ const SubmitCv = () => {
                 id={`input-${form?.curriculumVitae?.label}`}
                 placeholder={form?.curriculumVitae?.label}
                 className="form-control"
-                onChange={(e) => handleOnChange(e, "curriculumVitae")}
+                onChange={(e) => handleOnChangeFile(e, "curriculumVitae")}
               />
               <Form.Control.Feedback type="invalid">{`Please submit ${form?.curriculumVitae?.label?.toLowerCase()}`}</Form.Control.Feedback>
+            </div>
+            <div className="submit-cv-container-form-section">
+              <Form.Label
+                htmlFor={`input-${form?.coverLetter?.label}`}
+                className="form-label"
+              >
+                {form?.coverLetter?.label}
+              </Form.Label>
+              <Form.Control
+                type="file"
+                required={form?.coverLetter?.required}
+                id={`input-${form?.coverLetter?.label}`}
+                placeholder={form?.coverLetter?.label}
+                className="form-control"
+                onChange={(e) => handleOnChangeFile(e, "coverLetter")}
+              />
+              <Form.Control.Feedback type="invalid">{`Please submit ${form?.coverLetter?.label?.toLowerCase()}`}</Form.Control.Feedback>
+            </div>
+            <div className="submit-cv-container-form-section">
+              <Form.Label
+                htmlFor={`input-${form?.qualificationDoc?.label}`}
+                className="form-label"
+              >
+                {form?.qualificationDoc?.label}
+              </Form.Label>
+              <Form.Control
+                type="file"
+                required={form?.qualificationDoc?.required}
+                id={`input-${form?.qualificationDoc?.label}`}
+                placeholder={form?.qualificationDoc?.label}
+                className="form-control"
+                onChange={(e) => handleOnChangeFile(e, "qualificationDoc")}
+              />
+              <Form.Control.Feedback type="invalid">{`Please submit ${form?.qualificationDoc?.label?.toLowerCase()}`}</Form.Control.Feedback>
+            </div>
+            <div className="submit-cv-container-form-section">
+              <Form.Label
+                htmlFor={`input-${form?.proofOfExp?.label}`}
+                className="form-label"
+              >
+                {form?.proofOfExp?.label}
+              </Form.Label>
+              <Form.Control
+                type="file"
+                required={form?.proofOfExp?.required}
+                id={`input-${form?.proofOfExp?.label}`}
+                placeholder={form?.proofOfExp?.label}
+                className="form-control"
+                onChange={(e) => handleOnChangeFile(e, "proofOfExp")}
+              />
+              <Form.Control.Feedback type="invalid">{`Please submit ${form?.proofOfExp?.label?.toLowerCase()}`}</Form.Control.Feedback>
             </div>
             <div className="submit-cv-container-form-section d-flex flex-row justify-content-between mt-4">
               <Button type="submit" className="btn btn-primary">

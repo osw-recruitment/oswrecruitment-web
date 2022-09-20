@@ -47,7 +47,7 @@ const ViewClients = () => {
                 <Accordion.Item eventKey="0">
                   <Accordion.Header className="view-client-accordion-header">{`${client?.firstName} ${client?.lastName}`}</Accordion.Header>
                   <Accordion.Body>
-                    <Table striped>
+                    <Table striped bordered>
                       <tbody>
                         <tr>
                           <th className="view-client-table-title">
@@ -71,15 +71,6 @@ const ViewClients = () => {
                             {client?.firstName}
                           </th>
                         </tr>
-                        <tr>
-                          <th className="view-client-table-title">
-                            Curriculum Vitae
-                          </th>
-                          <th className="view-client-table-content">
-                            <a href={client?.curriculumVitae}>Download file</a>
-                          </th>
-                        </tr>
-                        {/*  */}
                         <tr>
                           <th className="view-client-table-title">
                             What country are you currently working in ?
@@ -241,6 +232,38 @@ const ViewClients = () => {
                           </th>
                           <th className="view-client-table-content">
                             {client?.durationToArrive}
+                          </th>
+                        </tr>
+                        <tr>
+                          <th className="view-client-table-title">
+                            Curriculum Vitae
+                          </th>
+                          <th className="view-client-table-content">
+                            <a href={client?.curriculumVitae}>Download file</a>
+                          </th>
+                        </tr>
+                        <tr>
+                          <th className="view-client-table-title">
+                            Cover Letter
+                          </th>
+                          <th className="view-client-table-content">
+                            <a href={client?.coverLetter}>Download file</a>
+                          </th>
+                        </tr>
+                        <tr>
+                          <th className="view-client-table-title">
+                            Qualifications
+                          </th>
+                          <th className="view-client-table-content">
+                            <a href={client?.qualificationDoc}>Download file</a>
+                          </th>
+                        </tr>
+                        <tr>
+                          <th className="view-client-table-title">
+                            Proof of Experience
+                          </th>
+                          <th className="view-client-table-content">
+                            <a href={client?.proofOfExp}>Download file</a>
                           </th>
                         </tr>
                       </tbody>

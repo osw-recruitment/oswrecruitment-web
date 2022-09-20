@@ -1,0 +1,13 @@
+.app-header {
+    width           : 100vw !important;
+    height          : 50px;
+    background-color: black;
+    opacity         : 0.8;
+
+    :nth-child(1) {
+        font-size  : 18px;
+        font-weight: 700;
+        color      : white;
+        margin     : 0 !important;
+    }
+}

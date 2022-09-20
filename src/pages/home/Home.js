@@ -20,18 +20,18 @@ const Home = () => {
             loop
           />
           <div className="app-brand-contact d-flex">
-            <Link to={"/contact-form"}>
+            <Link to={"/submit-details"}>
               <button className="app-brand-button mt-3 me-2">
                 Send your details
                 <i className="bi bi-send ms-2 app-brand-button-icon"></i>
               </button>
             </Link>
-            <button className="app-brand-button mt-3 ms-2">
+            {/* <button className="app-brand-button mt-3 ms-2">
               <a href="mailto:contact@oswrecruitment.com?subject=CV%20for%20Overseas%20Job%20Opportunities%20">
                 Contact Us
                 <i className="bi bi-telephone-forward ms-2 app-brand-button-icon"></i>
               </a>
-            </button>
+            </button> */}
           </div>
         </div>
       </div>

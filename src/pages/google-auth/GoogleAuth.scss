@@ -1,0 +1,53 @@
+.firebase-auth {
+    background-image   : url(https://images.unsplash.com/photo-1542227500-8e8f1d03f876?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80);
+    height             : 100vh !important;
+    background-position: center;
+    background-repeat  : no-repeat;
+    background-size    : cover;
+
+    &-container {
+        width : 40% !important;
+        height: 40% !important;
+
+        &-form {
+            width : 100% !important;
+            height: 100% !important;
+
+            .firebaseui-container {
+                min-width      : 100% !important;
+                min-height     : 100% !important;
+                max-width      : 100% !important;
+                max-height     : 100% !important;
+                display        : flex;
+                justify-content: center;
+                align-items    : center;
+            }
+
+            .firebaseui-form-actions {
+                display        : flex;
+                justify-content: center;
+                align-items    : center;
+            }
+        }
+    }
+}
+
+// Mobile Screen
+@media (max-width: 688px) {
+    .firebase-auth {
+        &-container {
+            width : 90% !important;
+            height: 60% !important;
+        }
+    }
+}
+
+    // Tablet Screen
+    @media (max-width: 992px) and (min-width: 689px) {
+        .firebase-auth {
+            &-container {
+                width : 60% !important;
+                height: 60% !important;
+            }
+        }
+    }

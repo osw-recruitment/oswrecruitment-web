@@ -7,6 +7,10 @@ import Button from "react-bootstrap/Button";
 import Header from "../../components/header/Header";
 import "./SubmitCv.scss";
 import { allJobs, allQualifications } from "../../constants/form-data";
+import {
+  errorNotification,
+  successNotification,
+} from "../../components/notification/Notification";
 
 const SubmitCv = () => {
   const initialFormState = {
@@ -254,34 +258,86 @@ const SubmitCv = () => {
         }`
       );
       const currClient = buildVO();
-      handleFirebaseUpload(cvRef, "curriculumVitae").then((res) => {
-        handleFirebaseUrl(cvRef).then((cvSrc) => {
-          currClient["curriculumVitae"] = cvSrc ?? null;
-          handleFirebaseUpload(clRef, "coverLetter").then((res) => {
-            handleFirebaseUrl(clRef).then((clSrc) => {
-              currClient["coverLetter"] = clSrc ?? null;
-              handleFirebaseUpload(qulRef, "qualificationDoc").then((res) => {
-                handleFirebaseUrl(qulRef).then((quSrc) => {
-                  currClient["qualificationDoc"] = quSrc ?? null;
-                  handleFirebaseUpload(poeRef, "proofOfExp").then((res) => {
-                    handleFirebaseUrl(poeRef).then((poeSrc) => {
-                      currClient["proofOfExp"] = poeSrc ?? null;
-                      handleSaveData(currClient);
-                    }).catch(err => console.error(err))
-                  }).catch(err => console.error(err))
-                }).catch(err => console.error(err))
-              }).catch(err => console.error(err))
-            }).catch(err => console.error(err))
-          }).catch(err => console.error(err))
-        }).catch(err => console.error(err))
-      }).catch(err => console.error(err))
+      handleFirebaseUpload(cvRef, "curriculumVitae")
+        .then((res) => {
+          handleFirebaseUrl(cvRef)
+            .then((cvSrc) => {
+              currClient["curriculumVitae"] = cvSrc ?? null;
+              handleFirebaseUpload(clRef, "coverLetter")
+                .then((res) => {
+                  handleFirebaseUrl(clRef)
+                    .then((clSrc) => {
+                      currClient["coverLetter"] = clSrc ?? null;
+                      handleFirebaseUpload(qulRef, "qualificationDoc")
+                        .then((res) => {
+                          handleFirebaseUrl(qulRef)
+                            .then((quSrc) => {
+                              currClient["qualificationDoc"] = quSrc ?? null;
+                              handleFirebaseUpload(poeRef, "proofOfExp")
+                                .then((res) => {
+                                  handleFirebaseUrl(poeRef)
+                                    .then((poeSrc) => {
+                                      currClient["proofOfExp"] = poeSrc ?? null;
+                                      handleSaveData(currClient);
+                                    })
+                                    .catch((err) => {
+                                      console.error(err);
+                                      errorNotification(
+                                        "Sorry! Unable to save details"
+                                      );
+                                    });
+                                })
+                                .catch((err) => {
+                                  console.error(err);
+                                  errorNotification(
+                                    "Sorry! Unable to save details"
+                                  );
+                                });
+                            })
+                            .catch((err) => {
+                              console.error(err);
+                              errorNotification(
+                                "Sorry! Unable to save details"
+                              );
+                            });
+                        })
+                        .catch((err) => {
+                          console.error(err);
+                          errorNotification("Sorry! Unable to save details");
+                        });
+                    })
+                    .catch((err) => {
+                      console.error(err);
+                      errorNotification("Sorry! Unable to save details");
+                    });
+                })
+                .catch((err) => {
+                  console.error(err);
+                  errorNotification("Sorry! Unable to save details");
+                });
+            })
+            .catch((err) => {
+              console.error(err);
+              errorNotification("Sorry! Unable to save details");
+            });
+        })
+        .catch((err) => {
+          console.error(err);
+          errorNotification("Sorry! Unable to save details");
+        });
     }
   };
 
   const handleSaveData = (details) => {
     addDoc(clientRef, details)
-      .then((res) => (window.location.href = "/"))
-      .catch((err) => console.error(err));
+      .then((res) => {
+        successNotification("Your details created successfully");
+        window.location.href = "/";
+      })
+      .catch((err) => {
+        console.error(err);
+        errorNotification("Sorry! Unable to save details");
+      });
   };
 
   return (
@@ -778,7 +834,7 @@ const SubmitCv = () => {
               <Button type="submit" className="btn btn-primary">
                 Submit
                 {isLoading && (
-                  <div class="spinner-border text-light" role="status"></div>
+                  <div className="spinner-border text-light" role="status"></div>
                 )}
               </Button>
               <Button type="reset" className="btn btn-secondary">

@@ -10,6 +10,7 @@ import { auth } from "./firebase";
 import { useEffect } from "react";
 import ViewClients from "./pages/view-clients/ViewClients";
 import { AUTH_USER, NOT_FOUND } from "./constants/index";
+import { ToastContainer } from "react-toastify";
 
 const App = () => {
   useEffect(() => {
@@ -24,15 +25,29 @@ const App = () => {
   // }, []);
 
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="" element={<Home />} />
-        <Route path="/auth" element={<GoogleAuth auth={auth} />} />
-        <Route path="/contact-form" element={<DetailsForm />} />
-        <Route path="/submit-details" element={<SubmitCv />} />
-        <Route path="/view-clients" element={<ViewClients />} />
-      </Routes>
-    </BrowserRouter>
+    <>
+      <BrowserRouter>
+        <Routes>
+          <Route path="" element={<Home />} />
+          <Route path="/auth" element={<GoogleAuth auth={auth} />} />
+          <Route path="/contact-form" element={<DetailsForm />} />
+          <Route path="/submit-details" element={<SubmitCv />} />
+          <Route path="/view-clients" element={<ViewClients />} />
+        </Routes>
+      </BrowserRouter>
+      <ToastContainer
+        toastStyle={{ backgroundColor: "#606060FF" }}
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
+    </>
   );
 };
 

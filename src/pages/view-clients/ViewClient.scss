@@ -1,0 +1,78 @@
+.view-client {
+    &-container {
+        p {
+            font-size: 24px;
+
+            span {
+                font-size: 14px;
+            }
+        }
+    }
+
+    &-table {
+        &-title {
+            width: 40% !important;
+        }
+
+        &-content {
+            font-weight: 500 !important;
+        }
+    }
+
+    &-accordion-header {
+        button {
+            font-size: 16px;
+        }
+    }
+}
+
+// Mobile Screen
+@media (max-width: 688px) {
+    .view-client {
+        &-container {
+            p {
+                font-size: 16px;
+
+                span {
+                    font-size: 12px;
+                }
+            }
+        }
+
+        &-table {
+            &-title {
+                width    : unset;
+                font-size: 10px;
+            }
+
+            &-content {
+                font-size    : 10px;
+                font-weight  : 500 !important;
+                white-space  : nowrap;
+                overflow     : hidden;
+                text-overflow: ellipsis;
+            }
+        }
+
+        &-accordion-header {
+            button {
+                font-size: 14px !important;
+            }
+        }
+    }
+}
+
+// Tablet Screen
+@media (max-width: 992px) and (min-width: 689px) {
+    .view-client {
+        .hidden-device {
+            display: none !important;
+        }
+
+        &-accordion-header {
+            button {
+                font-size: 16px !important;
+            }
+        }
+    }
+}
